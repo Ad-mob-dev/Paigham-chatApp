@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paigham-Chat App</title>
+    <!-- fb-core-first -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-database.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/bd1857d446.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <form id="loginform">
+        <div class="container-fluid-lg bg-dark text-white p-1"><hr style="background-color: white;"> <strong>Paigham</Strong> <br> <small>Chat-App</small> <hr style="background-color: white;"> </div>
+       <img src="assets/logo.png" alt="logo" width="150px" height="100px" id="logo">
+       <br>
+       <h6> <i>Welcome to Paigham-Chat-App</i></h6>
+     <br>
+   <span id="googlebtn" onclick="logInGoogle();"><img src="assets/icons/google.png" width="45px" height="42px"> &nbsp;Sign in with Google </span> 
+   <div class="container-fluid-lg bg-dark text-white mt-4 p-1"> <small>Powered by : Adeel Khan</small>    </div>
+</form>
+
+
+
+    <!-- header -->
+    <header class=" container-fluid-lg" id="menu">
+    
+        <!-- The overlay /mobile drawer -->
+        <div id="myNav" class="overlay">
+    
+            <!-- Button to close the overlay navigation -->
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <div class="head  bg-light text-black">
+                <img class="img-fluid" src="assets/logo.png" alt="logo" width="35px" height="35px">
+                <h2 class="mheading" style="font-size: 22px;">Paigham Chat App</h2>
+            </div>
+            <div class="row text-center mt-1 mb-1 p-2 bg-success d-flex justify-content-center align-item-center" id="uinforow">
+                <div class="col-md-4 col-sm-4 mt-4 mb-3" id="username"></div>
+                <div class="col-md-4 col-sm-4" id="userimage"></div>
+                <div class="col-md-4 col-sm-4 mt-4 mb-3" id="userlogout"></div>
+            </div>
+            <!-- Overlay content -->
+          
+            <div class="overlay-content">
+                <button class="btn btn-info w-100" data-toggle="modal" data-target="#exampleModalLong"><i class="fas fa-user"></i>-Users</button>
+            </div>
+
+
+  
+  <!-- Modal -->
+  <div class="modal fade bd-example-modal-lg" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle"><i class="fas fa-user">&nbsp;</i>User List</h5>
+          <button id="modaldismiss" type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <ul id="chatlist" class="list-unstyled">
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+        
+
+
+
+
+            <div class="footer">
+                <div class="footer-credit"> <strong>Powered By : Adeel Khan</strong></div>
+            </div>
+        </div>
+    
+        <!-- open/show the overlay navigation menu -->
+        <nav class="navbar navbar-light bg-light navbar-expand-lg">
+            <span><img class="img-fluid" src="assets/logo.png" alt="logo" width="35px" height="35px"> &nbsp; </span>
+            <a href="" class="navbar-brand mr-auto mainH btn btn-dark text-white">Paigham Chat App</a>
+            <img onclick=logOut() src='assets/logout.png' title='Log Out' width='40px' height='60px' id='logoutbtn' class="mb-3 mt-3 mr-2 btn btn-outline-primary img-fluid">
+            <button type="button" id="sidebarCollapse" title='Menu' class="btn btn-info" onclick="openNav(this)"><i
+                    class="fas fa-align-left"></i></button>
+    
+    
+    
+        </nav>
+    
+    
+    
+    
+    </header>
+
+<!-- friendlist -->
+    <div class="container-fluid list-group-item" id="fchatlistdiv">
+      <h2 class="badge badge-dark fa-1x">Friend List</h2>
+      <ul id="friendchatlist" class="list-unstyled"></ul>
+    </div>
+    
+<!-- chatbox -->
+    <div class="container-fluid-lg" id="chatbox">
+      <div class="card">
+        <div class="card-header" id="cheader">
+          <div class="row">
+            <div class="col-md-11 col-sm-6 col-8 bg-success">
+              <div id="friendPhoto" class="p-2">
+                <img id="fphoto" src="./assets/download.png" alt="friendImage" width="40px" height="40px">
+                  <strong class="m-2 text-white" id="fname">friendName</strong> 
+              </div>
+            </div>
+            <div class="col-md-1 col-sm-6 col-4 bg-success text-white d-flex flex-row justify-content-center align-items-center">
+              <div id="icondiv">
+                <button class="btn btn-light" title="GoBack" onclick="back()" id="backbtn"><i class="fa fa-chevron-circle-left"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body d-flex" id="cbody">
+        <div id="msgchatlist" class="d-block w-100">
+
+        </div>   
+   
+        </div>
+        <div class="card-footer" id="cfooter">
+          <div id="controldiv" class="container-fluid">
+            <input type="text" name="msg" id="msg"  oninput="changebtn(event)" onkeypress="revertbtn(event)" class="form-control-sm">
+            <button id="sendbtn" class="btn-success btn-sm mb-1" autofocus >Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="app.js"></script>
+</body>
+</html>
